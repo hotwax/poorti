@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml type="seed">
+    <!-- SystemMessageType record for importing Order data  -->
+    <moqui.service.message.SystemMessageType systemMessageTypeId="ImportOrder" 
+            description="Create/Update Order System Message"
+            consumeServiceName="co.hotwax.oms.SystemMessageServices.consume#DataImportSystemMessage"
+            receivePath="/sftp_user/sftpdir" receiveFilePattern=".*\.json"/>
+</entity-facade-xml>

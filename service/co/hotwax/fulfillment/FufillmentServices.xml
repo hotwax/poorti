@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+        <!-- Create Order -->
+        <service verb="import" noun="FulfillmentOrder">
+            <description>
+                Creates an order for fulfillment.
+            </description>
+            <in-parameters>
+                <parameter name="orderName">
+                    <description>The name for the sales order.</description>
+                </parameter>
+                <parameter name="currencyUom">
+                    <description>The three letter code describing the currency.</description>
+                </parameter>
+                <parameter name="salesChannelEnumId" entity-name="mantle.order.OrderHeader">
+                    <description>The sales channel ID from where the order originated.</description>
+                </parameter>
+                <parameter name="placedDate" type="Timestamp">
+                    <description>The date when the order was placed.</description>
+                </parameter>
+                <parameter name="externalOrderId">
+                    <description>The ID for the order in the external system.</description>
+                </parameter>
+                <parameter name="customer_details" type="Map" required="true">
+                    <parameter name="customerPartyId" required="true">
+                        <description>The unique party ID of the customer in the system.</description>
+                    </parameter>
+                </parameter>
+                <parameter name="shipping_details" type="Map">
+                    <parameter name="address" type="Map">
+                        <description>The shipping address for the order.</description>
+                        <parameter name="toName">
+                            <description>The customer's name for the address.</description>
+                        </parameter>
+                        <parameter name="address1" required="true">
+                            <description>The address line 1 of the address.</description>
+                        </parameter>
+                        <parameter name="address2">
+                            <description>The address line 2 of the address.</description>
+                        </parameter>
+                        <parameter name="city" required="true">
+                            <description>The city of the address.</description>
+                        </parameter>
+                        <parameter name="stateProvinceGeoId">
+                            <description>The ID for the state code of the address in the system.</description>
+                        </parameter>
+                        <parameter name="countryGeoId" required="true">
+                            <description>The ID for the country code of the address in the system.</description>
+                        </parameter>
+                        <parameter name="postalCode" required="true">
+                            <description>The postal code of the address.</description>
+                        </parameter>
+                    </parameter>
+                    <parameter name="phone" type="Map">
+                        <description>The shipping phone details for the order.</description>
+                        <parameter name="countryCode">
+                            <description>The country code of the contact number.</description>
+                        </parameter>
+                        <parameter name="areaCode">
+                            <description>The area code of the contact number.</description>
+                        </parameter>
+                        <parameter name="contactNumber" required="true">
+                            <description>The contact number of the customer.</description>
+                        </parameter>
+                    </parameter>
+                </parameter>
+                <parameter name="order_parts" type="List" required="true">
+                    <description>The list of order parts.</description>
+                    <parameter name="orderPartMap" type="Map" required="true">
+                        <description>The order part details.</description>
+                        <parameter name="item_details" type="List" required="true">
+                            <description>The list of items in the order part.</description>
+                            <parameter name="items" type="Map">
+                                <parameter name="externalItemId">
+                                    <description>The ID for the item in the external system.</description>
+                                </parameter>
+                                <parameter name="sku" required="true">
+                                    <description>The unique sku of the product.</description>
+                                </parameter>
+                                <parameter name="productName">
+                                    <description>The name of the product.</description>
+                                </parameter>
+                                <parameter name="quantity" type="Integer" required="true">
+                                    <description>The quantity of the product.</description>
+                                </parameter>
+                                <parameter name="unitAmount" type="BigDecimal" required="true">
+                                    <description>The unit amount of the product.</description>
+                                </parameter>
+                                <parameter name="tax_details" type="List">
+                                    <description>The list of tax details for the product.</description>
+                                    <parameter name="taxMap" type="Map">
+                                        <description>The tax details for the product.</description>
+                                        <parameter name="amount" type="BigDecimal" required="true">
+                                            <description>The tax amount applicable for the product.</description>
+                                        </parameter>
+                                        <parameter name="percentage" type="BigDecimal" required="true">
+                                            <description>The tax percentage applicable for the product.</description>
+                                        </parameter>
+                                    </parameter>
+                                </parameter>
+                            </parameter>
+                        </parameter>
+                        <parameter name="facilityId">
+                            <description>The external ID of the facility in the system.</description>
+                        </parameter>
+                        <parameter name="carrierPartyId">
+                            <description>The ID of the carrier service party in the system.</description>
+                        </parameter>
+                        <parameter name="shipmentMethodEnumId">
+                            <description>The ID of the shipment method in the system.</description>
+                        </parameter>
+                        <parameter name="shippingCost" type="BigDecimal">
+                            <description>The shipping charge for the order items.</description>
+                        </parameter>
+                        <parameter name="shippingInstructions">
+                            <description>The shipping instructions for the order.</description>
+                        </parameter>
+                    </parameter>
+                </parameter>
+            </in-parameters>
+            <out-parameters>
+                <!-- Return Order Id and External Order Id -->
+                <parameter name="orderId" required="true">
+                    <description>The unique ID assigned for the order in the system.</description>
+                </parameter>
+                <parameter name="externalOrderId">
+                    <description>The ID for the order in the external system.</description>
+                </parameter>
+            </out-parameters>
+            <actions>
+                <set field="defaultProductStoreId" from="context?.productStoreId"/>
+                <if condition="defaultProductStoreId">
+                    <entity-find-one entity-name="mantle.product.store.ProductStore" value-field="defaultProductStore">
+                        <field-map field-name="productStoreId" from="defaultProductStoreId"/>
+                    </entity-find-one>
+                    <if condition="defaultProductStore == null"><set field="defaultProductStoreId" from="null"/></if>
+                </if>
+
+                <!-- Validate API request -->
+                <service-call name="co.hotwax.oms.OrderServices.validate#OrderRequest" in-map="context" out-map="context"/>
+
+                <!-- Get some unspecified values from the default Product Store -->
+                <set field="productStoreId" from="defaultProductStore?.productStoreId"/>
+                <set field="vendorPartyId" from="defaultProductStore?.organizationPartyId"/>
+                <set field="salesChannelEnumId" from="salesChannelEnumId ?: defaultProductStore?.defaultSalesChannelEnumId"/>
+                <if condition="currencyUom">
+                    <!-- Get UomId in the system for the incoming currencyUom abbreviated value -->
+                    <entity-find entity-name="moqui.basic.Uom" list="uomList">
+                        <econdition field-name="abbreviation" from="currencyUom"/>
+                        <econdition field-name="uomTypeEnumId" value="UT_CURRENCY_MEASURE"/>
+                    </entity-find>
+                    <set field="currencyUomId" from="uomList ? uomList[0].uomId : null"/>
+                </if>
+                <set field="currencyUomId" from="currencyUomId ?: defaultProductStore?.defaultCurrencyUomId"/>
+
+                <service-call name="create#mantle.order.OrderHeader" out-map="orderHeaderOut"
+                              in-map="context + [enteredByPartyId:ec.user.userAccount?.partyId,
+                    orderRevision:1, statusId:'OrderPlaced', externalId:externalOrderId] + context.shipping_details.address + context.shipping_details.phone"/>
+                
+                <!-- Handling of order_parts -->
+                <iterate list="order_parts" entry="order_part">
+                    <entity-find-one entity-name="mantle.party.Party" value-field="customerParty">
+                        <field-map field-name="externalId" from="customer_details.customerPartyId"/>
+                    </entity-find-one>
+                    <!-- Shipping Instructions -->
+                    <if condition="!order_part.shippingInstructions">
+                        <then>
+                            <!-- Populate from customer Party.shippingInstructions, if not specified in the request-->
+                            <set field="shippingInstructions" from="customerParty?.shippingInstructions"/>
+                        </then>
+                        <else>
+                            <set field="shippingInstructions" from="order_part.shippingInstructions"/>
+                        </else>
+                    </if>
+                    <entity-find-one entity-name="mantle.facility.Facility" value-field="facility">
+                        <field-map field-name="externalId" from="order_part.facilityId"/>
+                    </entity-find-one>
+                    <set field="shippingInstructions" from="customerParty?.shippingInstructions"/>
+                    <!-- Create Order Part -->
+                    <!-- NOTE: Setting disableTaxCalc='Y' and disableShippingCalc='Y' for Order Part as we need to store the tax amount and shipping charge as is coming in the item details.
+                    Else, due to OOTB EECA rule on OrderItem, handle#OrderMajorChange gets called which deletes the tax and shipping items after calculations. -->
+                    <service-call name="create#mantle.order.OrderPart" out-map="orderPartOut" in-map="context +
+                        [orderId:orderHeaderOut.orderId, customerPartyId:customerParty.partyId,
+                        facilityId:facility.facilityId ?: '', carrierPartyId:order_part.carrierPartyId,
+                        shipmentMethodEnumId:order_part.shipmentMethodEnumId, disableTaxCalc:'Y',
+                        postalContactMechId:shippingAddressContactMechId, disableShippingCalc: 'Y',
+                        telecomContactMechId:shippingPhoneContactMechId, statusId:'OrderPlaced',
+                        reservationAutoEnumId:defaultProductStore?.reservationAutoEnumId]"/>
+
+                    <!-- Item Details -->
+                    <iterate list="order_part.item_details" entry="order_item">
+                        <!-- Find Product from SKU to use productId in creating Order Item -->
+                        <entity-find entity-name="mantle.product.Product" list="productList">
+                            <econdition field-name="pseudoId" from="order_item.sku"/>
+                        </entity-find>
+
+                        <if condition="!productList">
+                            <return error="true" message="Product with sku ${order_item.sku} not found."/>
+                        </if>
+                        <!-- Create Order Item -->
+                        <service-call name="mantle.order.OrderServices.create#OrderItem" out-map="orderItemOut"
+                                      in-map="context + [orderId:orderHeaderOut.orderId,
+                            orderPartSeqId:orderPartOut.orderPartSeqId, productId:productList[0].productId,
+                            quantity:order_item.quantity, itemDescription:order_item.productName,
+                            unitAmount:order_item.unitAmount,externalItemSeqId:order_item.externalItemId]"/>
+                        <!-- Item Tax Details -->
+                        <if condition="order_item.tax_details">
+                            <!-- Create Order Item for item's tax details -->
+                            <iterate list="order_item.tax_details" entry="tax_detail">
+                                <service-call name="create#mantle.order.OrderItem" out-map="context"
+                                              in-map="[orderId:orderHeaderOut.orderId, orderPartSeqId:orderPartOut.orderPartSeqId,
+                                    parentItemSeqId:orderItemOut.orderItemSeqId, itemTypeEnumId:'ItemSalesTax',
+                                    quantity:order_item.quantity, unitAmount:tax_detail.amount,
+                                    sourcePercentage:tax_detail.percentage, itemDescription:'Sales Tax']"/>
+                            </iterate>
+                        </if>
+                    </iterate>
+
+                    <!-- Shipping Charge -->
+                    <if condition="order_part.shippingCost">
+                        <entity-find-one entity-name="mantle.party.PartyDetail" value-field="carrierDetail">
+                            <field-map field-name="partyId" from="order_part.carrierPartyId"/>
+                        </entity-find-one>
+                        <entity-find-one entity-name="moqui.basic.Enumeration" value-field="shipmentMethodEnum">
+                            <field-map field-name="enumId" from="order_part.shipmentMethodEnumId"/>
+                        </entity-find-one>
+                        <set field="carrierName" from="carrierDetail?.organizationName"/>
+                        <!-- Create Order Item for shipping charge with description in the format "${carrieName} - ${shipmentMethodDescription}" -->
+                        <set field="shippingItemDescription" value="${order_part.carrierPartyId == '_NA_' ? '' : (carrierName + ' - ') }${shipmentMethodEnum?.description}"/>
+                        <service-call name="create#mantle.order.OrderItem" out-map="context"
+                                      in-map="[orderId:orderHeaderOut.orderId, orderPartSeqId:orderPartOut.orderPartSeqId,
+                                  itemTypeEnumId:'ItemShipping', quantity:1, unitAmount:order_part.shippingCost,
+                                  itemDescription:shippingItemDescription]"/>
+                    </if>
+                </iterate>
+                <!-- Setting the OrderId for the out-parameter -->
+                <set field="orderId" from="orderHeaderOut.orderId"/>
+            </actions>
+        </service>
+</services>
