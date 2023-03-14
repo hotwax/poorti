@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml type="ext-seed-initial">
+    <!-- Sftp server connection details -->
+    <moqui.service.message.SystemMessageRemote systemMessageRemoteId="LocalSftp"
+                                               description="SFTP server connection details" receiveUrl="localhost"
+                                               username="sftp_user" password="12345"/>
+
+    <!-- System Message Type for Order Import -->
+    <moqui.service.message.SystemMessageType systemMessageTypeId="StoreIncomingOrderFeed"
+                                             description="Store HotWax Store brokered orders feed"
+                                             consumeServiceName="co.hotwax.fulfillment.SystemMessageServices.consume#DataImportSystemMessage"
+                                             sendPath=""
+                                             receiveServiceName="org.moqui.impl.SystemMessageServices.receive#IncomingSystemMessage"/>
+    
+    <moqui.service.job.ServiceJob jobName="ImportOrderSftp_poll"
+                                  description="SFTP Poll Order Import"
+                                  serviceName="org.moqui.sftp.SftpMessageServices.poll#SystemMessageSftp"
+                                  cronExpression="0 0/15 * * * ?" paused="Y">
+        <parameters parameterName="systemMessageTypeId" parameterValue="StoreIncomingOrderFeed"/>
+        <parameters parameterName="systemMessageRemoteId" parameterValue="LocalSftp"/>
+    </moqui.service.job.ServiceJob>
+</entity-facade-xml>
