@@ -1,49 +1,51 @@
-# Poorti
+# Poorti: Order Fulfillment Manager
 
-Poorti, an Order Fulfillment Manager application is a suite of microservices designed to streamline the order fulfillment process at fulfillment facilities, including mini-warehouses and retail stores.
+Poorti is a suite of microservices designed to streamline order fulfillment processes in various fulfillment facilities, including mini-warehouses and retail stores. This open-source solution automates key workflows, manages inventory, and provides a scalable architecture for modern businesses.
 
-## Project Overview
+## Features
 
-The project repository is hosted at [GitHub - Poorti](https://github.com/hotwax/poorti). The software is licensed under the ASL 2.0 open-source license.
-
-### Features
-
-- **Automated Order Fulfillment:** Streamlines Pick, Pack and Ship.
-- **Inventory Management:** Receiving, Cycle count, Availability.
-- **Microservices Architecture:** Headless, horizontal and verticle scalability ensured.
+* **Automated Order Fulfillment:** Seamlessly handle picking, packing, and shipping processes.
+* **Inventory Management:** Efficiently manage receiving, cycle counting, and inventory availability.
+* **Microservices Architecture:**  Decoupled and headless services ensure horizontal and vertical scalability, allowing the system to grow with your business.
+* **Integration-Ready:**  Built on the Moqui Framework, Poorti can easily integrate with your existing systems and tools.
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Moqui Framework](https://github.com/moqui/moqui-framework)
-- [Data Model](https://github.com/hotwax/mantle-udm)
-- [Service Library](https://github.com/hotwax/oms-usl)
+Make sure you have the following installed:
 
-### Installation
+* **Moqui Framework:** [https://github.com/moqui/moqui-framework](https://github.com/moqui/moqui-framework)
+* **Data Model (Mantle-UDM):** [https://github.com/hotwax/mantle-udm](https://github.com/hotwax/mantle-udm)
+* **Service Library (OMS-USL):** [https://github.com/hotwax/oms-usl](https://github.com/hotwax/oms-usl)
+* **Java Development Kit (JDK):** Version 11 or higher 
 
-1. Clone the Fulfillment Center Manager repository:
+### Installation & Configuration
 
-    ```bash
-    git clone https://github.com/hotwax/poorti.git
-    ```
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/hotwax/poorti.git
+   ```
+2. **Set up Moqui Framework:**
+   * Follow the Moqui Framework's installation guide [Moqui Setup](https://www.moqui.org/docs/framework/Run+and+Deploy) to get it up and running.
+3. **Integrate Poorti:**
+   * Detailed instructions for configuring Poorti within your Moqui environment can be found in the [Poorti Setup Guide](docs/setup.md).
 
-2. Follow the installation and setup instructions provided within the repository to configure the Poorti application within the Moqui Framework.
+## Contributing
 
-### Contributing
+We welcome contributions! Here's how you can get involved:
 
-We welcome contributions to the Fulfillment Center Manager project. To contribute:
+1. **Fork the Repository:** Click the "Fork" button on GitHub.
+2. **Create a Branch:** `git checkout -b feature/your-feature-name`
+3. **Make Changes:** Code, test, and document your improvements.
+4. **Commit:** `git commit -m "Your detailed commit message"`
+5. **Push:** `git push origin feature/your-feature-name`
+6. **Open a Pull Request:** Explain your changes and their benefits.
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature/your-feature`).
-5. Create a new Pull Request.
+## License
 
-### License
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+## Support & Community
 
-## Support
-
-For any questions, issues, or support related to the Fulfillment Center Manager, please create an issue on the [GitHub repository](https://github.com/hotwax/fulfillment/issues).
+* **Questions or Issues:** Please open an issue on the [GitHub repository](https://github.com/hotwax/poorti/issues).
