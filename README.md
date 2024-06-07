@@ -1,22 +1,20 @@
-# Fulfillment Center Manager
+# Poorti
 
-Fulfillment Center Manager is a suite of microservices designed to streamline the management of fulfillment facilities, including mini-warehouses and retail stores. It automates the order fulfillment process and optimizes inventory management within these locations.
+Poorti, an Order Fulfillment Manager application is a suite of microservices designed to streamline the order fulfillment process at fulfillment facilities, including mini-warehouses and retail stores.
 
 ## Project Overview
 
-The project repository is hosted at [GitHub - Fulfillment Center Manager](https://github.com/hotwax/fulfillment). The software is licensed under the ASL 2.0 open-source license.
+The project repository is hosted at [GitHub - Poorti](https://github.com/hotwax/poorti). The software is licensed under the ASL 2.0 open-source license.
 
 ### Features
 
-- **Automated Order Fulfillment:** Streamlines and automates the order processing workflow.
-- **Inventory Management:** Efficiently manages and tracks inventory within fulfillment locations.
-- **Microservices Architecture:** Utilizes a suite of microservices for flexibility and scalability.
+- **Automated Order Fulfillment:** Streamlines Pick, Pack and Ship.
+- **Inventory Management:** Receiving, Cycle count, Availability.
+- **Microservices Architecture:** Headless, horizontal and verticle scalability ensured.
 
 ## Getting Started
 
 ### Prerequisites
-
-Before running the Fulfillment Center Manager application, ensure you have the following installed:
 
 - [Moqui Framework](https://github.com/moqui/moqui-framework): This serves as the base framework for the Fulfillment Center Manager. Follow the Moqui Framework installation instructions before proceeding.
 - [Mantle-UDM Component](https://github.com/hotwax/mantle-udm): A dependency required for the proper functioning of the Fulfillment Center Manager. Install this component as part of the setup process.
@@ -26,10 +24,10 @@ Before running the Fulfillment Center Manager application, ensure you have the f
 1. Clone the Fulfillment Center Manager repository:
 
     ```bash
-    git clone https://github.com/hotwax/fulfillment.git
+    git clone https://github.com/hotwax/poorti.git
     ```
 
-2. Follow the installation and setup instructions provided within the repository to configure the Fulfillment Center Manager within the Moqui Framework.
+2. Follow the installation and setup instructions provided within the repository to configure the Poorti application within the Moqui Framework.
 
 ### Contributing
 
