@@ -16,8 +16,9 @@ The project repository is hosted at [GitHub - Poorti](https://github.com/hotwax/
 
 ### Prerequisites
 
-- [Moqui Framework](https://github.com/moqui/moqui-framework): This serves as the base framework for the Fulfillment Center Manager. Follow the Moqui Framework installation instructions before proceeding.
-- [Mantle-UDM Component](https://github.com/hotwax/mantle-udm): A dependency required for the proper functioning of the Fulfillment Center Manager. Install this component as part of the setup process.
+- [Moqui Framework](https://github.com/moqui/moqui-framework)
+- [Data Model](https://github.com/hotwax/mantle-udm)
+- [Service Library](https://github.com/hotwax/oms-usl)
 
 ### Installation
 
