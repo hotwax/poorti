@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-facade-xml type="demo">
+
+    <mantle.party.Party partyId="DEMO_INT_ORG" pseudoId="DIO" partyTypeEnumId="PtyOrganization" ownerPartyId="DEMO_INT_ORG">
+        <organization organizationName="Demo Internal Organization"/>
+        <roles roleTypeId="OrgInternal"/>
+    </mantle.party.Party>
+    <moqui.service.message.SystemMessageRemote systemMessageRemoteId="SHOPIFY_SHOP" sendUrl="" remoteId=""/>
+    <!-- demo store settings for email/etc -->
+    <mantle.product.store.ProductStore productStoreId="DEMO_STORE" storeName="Demo Store" organizationPartyId="DEMO_INT_ORG" defaultLocale="en_US"
+            defaultCurrencyUomId="USD" requireInventory="N" reservationOrderEnumId="AsResOrdFifoRec" systemMessageRemoteId="SHOPIFY_SHOP"/>
+
+    <mantle.party.contact.ContactMech contactMechId="BROADWAY_STORE" contactMechTypeEnumId="CmtPostalAddress">
+        <mantle.party.contact.PostalAddress toName="Broadway"
+                address1="540 Broadway"
+                city="New York" stateProvinceGeoId="USA_NY" countryGeoId="USA" postalCode="10012"/>
+    </mantle.party.contact.ContactMech>
+    <mantle.party.contact.ContactMech contactMechId="BROOKLYN_STORE" contactMechTypeEnumId="CmtPostalAddress">
+        <mantle.party.contact.PostalAddress toName="Brooklyn"
+                address1="440 Fulton St"
+                city="New York" stateProvinceGeoId="USA_NY" countryGeoId="USA" postalCode="11201"/>
+    </mantle.party.contact.ContactMech>
+    <mantle.party.contact.ContactMech contactMechId="CENTERVILLE_STORE" contactMechTypeEnumId="CmtPostalAddress">
+        <mantle.party.contact.PostalAddress toName="Centerville"
+                address1="200 N Market Place Dr"
+                city="New York" stateProvinceGeoId="USA_UT" countryGeoId="USA" postalCode="84014"/>
+    </mantle.party.contact.ContactMech>
+    <mantle.party.contact.ContactMech contactMechId="GARDEN_CITY_STORE" contactMechTypeEnumId="CmtPostalAddress">
+        <mantle.party.contact.PostalAddress toName="Garden City"
+                address1="Garden City"
+                city="New York" stateProvinceGeoId="USA_NY" countryGeoId="USA" postalCode="11530"/>
+    </mantle.party.contact.ContactMech>
+    <mantle.party.contact.ContactMech contactMechId="OREM_STORE" contactMechTypeEnumId="CmtPostalAddress">
+        <mantle.party.contact.PostalAddress toName="Orem"
+                address1="175 W Center St"
+                city="Orem" stateProvinceGeoId="USA_UT" countryGeoId="USA" postalCode="84057"/>
+    </mantle.party.contact.ContactMech>
+    <!-- store data -->
+    <mantle.facility.Facility facilityId="BROADWAY" facilityTypeEnumId="FcTpRetailStore" facilityName="Broadway" ownerPartyId="DEMO_INT_ORG" externalId="BROADWAY" originId="STORE_1">
+        <contactMechs contactMechId="BROADWAY_STORE" contactMechPurposeId="PostalPrimary"/>
+        <locations locationTypeEnumId="FltPick" locationSeqId="01010101" sequenceNum="1" areaId="01" aisleId="01" sectionId="01" levelId="01" positionId=""/>
+    </mantle.facility.Facility>
+    <mantle.facility.Facility facilityId="BROOKLYN" facilityTypeEnumId="FcTpRetailStore" facilityName="Brooklyn" ownerPartyId="DEMO_INT_ORG" externalId="BROOKLYN" originId="STORE_2">
+        <contactMechs contactMechId="BROOKLYN_STORE" contactMechPurposeId="PostalPrimary"/>
+        <locations locationTypeEnumId="FltPick" locationSeqId="01010101" sequenceNum="1" areaId="01" aisleId="01" sectionId="01" levelId="01" positionId=""/>
+    </mantle.facility.Facility>
+    <mantle.facility.Facility facilityId="CENTERVILLE" facilityTypeEnumId="FcTpRetailStore" facilityName="Centerville" ownerPartyId="DEMO_INT_ORG" externalId="CENTERVILLE" originId="STORE_3">
+        <contactMechs contactMechId="CENTERVILLE_STORE" contactMechPurposeId="PostalPrimary"/>
+        <locations locationTypeEnumId="FltPick" locationSeqId="01010101" sequenceNum="1" areaId="01" aisleId="01" sectionId="01" levelId="01" positionId=""/>
+    </mantle.facility.Facility>
+    <mantle.facility.Facility facilityId="GARDEN_CITY" facilityTypeEnumId="FcTpRetailStore" facilityName="Garden City" ownerPartyId="DEMO_INT_ORG" externalId="GARDEN_CITY" originId="STORE_4">
+        <contactMechs contactMechId="GARDEN_CITY_STORE" contactMechPurposeId="PostalPrimary"/>
+        <locations locationTypeEnumId="FltPick" locationSeqId="01010101" sequenceNum="1" areaId="01" aisleId="01" sectionId="01" levelId="01" positionId=""/>
+    </mantle.facility.Facility>
+    <mantle.facility.Facility facilityId="OREM" facilityTypeEnumId="FcTpRetailStore" facilityName="Orem" ownerPartyId="DEMO_INT_ORG" externalId="OREM" originId="STORE_5">
+        <contactMechs contactMechId="OREM_STORE" contactMechPurposeId="PostalPrimary"/>
+        <locations locationTypeEnumId="FltPick" locationSeqId="01010101" sequenceNum="1" areaId="01" aisleId="01" sectionId="01" levelId="01" positionId=""/>
+    </mantle.facility.Facility>
+
+    <mantle.product.category.ProductCategory productCategoryId="PopcBrowseRoot"
+                                             productCategoryTypeEnumId="PctCatalog" categoryName="Browse Root Category"/>
+    <mantle.product.store.ProductStoreCategory productStoreId="POPC_DEFAULT" productCategoryId="PopcBrowseRoot"
+                                               storeCategoryTypeEnumId="PsctBrowseRoot" fromDate="1265184000000" thruDate=""/>
+</entity-facade-xml>
